@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AS Level Study Planner - Winter 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #1a1410;
+            --accent-beige: #d4a574;
+            --accent-gold: #c9975b;
+            --accent-sand: #e8d5b7;
+            --accent-cream: #f5e6d3;
+            --text-primary: #f5e6d3;
+            --text-secondary: #a89175;
+            --border: #2d251f;
+            --success: #d4a574;
+            --warning: #c9975b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        body > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #2d251f 0%, #1a1410 100%);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--accent-gold);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.1) 0%, transparent 50%);
+            opacity: 0.6;
+        }
+        
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            position: relative;
+            color: var(--accent-cream);
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        .hero p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            position: relative;
+            color: var(--text-secondary);
+            animation: slideDown 0.8s ease-out 0.2s backwards;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .countdown {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 900px;
+        }
+        
+        .countdown h2 {
+            font-family: 'Instrument Serif', serif;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-box {
+            background: rgba(212, 165, 116, 0.08);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            background: rgba(212, 165, 116, 0.12);
+            border-color: var(--accent-beige);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .phase-section {
+            margin: 3rem 0;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--border);
+        }
+        
+        .phase-number {
+            font-family: 'Instrument Serif', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            line-height: 1;
+            opacity: 0.7;
+        }
+        
+        .phase-info h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .phase-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .week-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .week-card:hover {
+            border-color: var(--accent-gold);
+        }
+        
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .week-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+        }
+        
+        .week-dates {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .subject-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin: 0.3rem 0.3rem 0.3rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .subject-math {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--accent-beige);
+            border: 1px solid var(--accent-beige);
+        }
+        
+        .subject-physics {
+            background: rgba(201, 151, 91, 0.15);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+        }
+        
+        .subject-chemistry {
+            background: rgba(232, 213, 183, 0.15);
+            color: var(--accent-sand);
+            border: 1px solid var(--accent-sand);
+        }
+        
+        .topic-list {
+            margin-top: 1rem;
+            padding-left: 1.2rem;
+        }
+        
+        .topic-list li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin: 0.5rem 0;
+            position: relative;
+        }
+        
+        .topic-list li::marker {
+            color: var(--accent-gold);
+        }
+        
+        .daily-schedule {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .daily-schedule h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .day-card {
+            background: rgba(212, 165, 116, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.2rem;
+        }
+        
+        .day-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .time-block {
+            margin: 0.6rem 0;
+            padding: 0.6rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        
+        .time-label {
+            color: var(--accent-beige);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.75rem;
+        }
+        
+        .rules-section {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .rules-section h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .rule-item {
+            background: rgba(0,0,0,0.2);
+            border-left: 3px solid var(--accent-gold);
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .rule-item strong {
+            color: var(--accent-beige);
+        }
+        
+        .checklist {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-beige);
+            border-radius: 6px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .checklist h4 {
+            color: var(--accent-beige);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 0.6rem 0;
+            padding: 0.6rem;
+            background: rgba(212, 165, 116, 0.05);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .checkbox-item:hover {
+            background: rgba(212, 165, 116, 0.1);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent-gold);
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
+        .tab-container {
+            margin: 2rem 0;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            font-weight: 600;
+        }
+        
+        .tab:hover {
+            color: var(--accent-beige);
+        }
+        
+        .tab.active {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-beige));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .phase-number {
+                font-size: 3rem;
+            }
+            
+            .week-grid,
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                padding: 0.8rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>AS Level 2026</h1>
+        <p>Jan 29 - June 30</p>
+    </div>
+
+    <div class="container">
+        <div class="countdown">
+            <h2>Timeline</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number" id="daysLeft">153</span>
+                    <span class="stat-label">Days Until June</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">22</span>
+                    <span class="stat-label">Weeks Total</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">~42</span>
+                    <span class="stat-label">Hours/Week</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">7</span>
+                    <span class="stat-label">Papers To Master</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 2%"></div>
+            </div>
+            <p style="text-align: center; margin-top: 1rem; color: var(--text-secondary);">Week 1 of 22 • Foundation Phase</p>
+        </div>
+
+        <!-- Daily Schedule -->
+        <div class="daily-schedule">
+            <h3>Weekly Schedule</h3>
+            <div class="schedule-grid">
+                <div class="day-card">
+                    <div class="day-name">Sunday</div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 1</span>
+                        12AM - 5AM (5 hours)
+                    </div>
+                    <div class="time-block" style="background: rgba(247, 37, 133, 0.2);">
+                        <span class="time-label">Coaching</span>
+                        3PM - 10PM
+                    </div>
+                    <div style="margin-top: 1rem; color: var(--warning); font-size: 0.85rem;">
+                        ⚡ 5 hours available
+                    </div>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-name">Monday</div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 1</span>
+                        12AM - 5AM (5 hours)
+                    </div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 2</span>
+                        1PM - 6:30PM (2.5 hours)
+                    </div>
+                    <div class="time-block" style="background: rgba(247, 37, 133, 0.2);">
+                        <span class="time-label">Coaching</span>
+                        6:30PM - 10PM
+                    </div>
+                    <div style="margin-top: 1rem; color: var(--success); font-size: 0.85rem;">
+                        ✨ 7.5 hours available
+                    </div>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-name">Tuesday</div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 1</span>
+                        12AM - 5AM (5 hours)
+                    </div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 2</span>
+                        1PM - 5PM (4 hours)
+                    </div>
+                    <div style="margin-top: 1rem; color: var(--success); font-size: 0.85rem;">
+                        🔥 9 hours available
+                    </div>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-name">Wednesday</div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 1</span>
+                        12AM - 5AM (5 hours)
+                    </div>
+                    <div class="time-block" style="background: rgba(247, 37, 133, 0.2);">
+                        <span class="time-label">Coaching</span>
+                        3PM - 10PM
+                    </div>
+                    <div style="margin-top: 1rem; color: var(--warning); font-size: 0.85rem;">
+                        ⚡ 5 hours available
+                    </div>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-name">Thursday</div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 1</span>
+                        12AM - 5AM (5 hours)
+                    </div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 2</span>
+                        1PM - 5PM (4 hours)
+                    </div>
+                    <div style="margin-top: 1rem; color: var(--success); font-size: 0.85rem;">
+                        🔥 9 hours available
+                    </div>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-name">Friday</div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 1</span>
+                        12AM - 5AM (5 hours)
+                    </div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 2</span>
+                        1PM - 3PM (2 hours)
+                    </div>
+                    <div class="time-block" style="background: rgba(247, 37, 133, 0.2);">
+                        <span class="time-label">Coaching</span>
+                        3PM - 5PM
+                    </div>
+                    <div style="margin-top: 1rem; color: var(--success); font-size: 0.85rem;">
+                        ✨ 7 hours available
+                    </div>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-name">Saturday</div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 1</span>
+                        12AM - 5AM (5 hours)
+                    </div>
+                    <div class="time-block">
+                        <span class="time-label">Study Block 2</span>
+                        1PM - 6:30PM (2.5 hours)
+                    </div>
+                    <div class="time-block" style="background: rgba(247, 37, 133, 0.2);">
+                        <span class="time-label">Coaching</span>
+                        6:30PM - 10PM
+                    </div>
+                    <div style="margin-top: 1rem; color: var(--success); font-size: 0.85rem;">
+                        ✨ 7.5 hours available
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('phase1')">Phase 1: Foundation</button>
+                <button class="tab" onclick="switchTab('phase2')">Phase 2: Content Coverage</button>
+                <button class="tab" onclick="switchTab('phase3')">Phase 3: Past Papers</button>
+                <button class="tab" onclick="switchTab('rules')">Study Rules</button>
+            </div>
+
+            <!-- Phase 1 Content -->
+            <div id="phase1" class="tab-content active">
+                <div class="phase-section">
+                    <div class="phase-header">
+                        <div class="phase-number">01</div>
+                        <div class="phase-info">
+                            <h2>Foundation</h2>
+                            <p>Weeks 1-3 | Jan 29 - Feb 18 | Build to 9h/day</p>
+                        </div>
+                    </div>
+
+                    <div class="week-grid">
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Week 1</span>
+                                <span class="week-dates">Jan 29 - Feb 4</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-math">Math Only</span>
+                                <div style="margin-top: 1rem; color: var(--warning);">
+                                    Target: 5 hours/day
+                                </div>
+                            </div>
+                            <ul class="topic-list">
+                                <li>P1: Quadratics (Learn + Practice)</li>
+                                <li>P1: Functions (Learn + Practice)</li>
+                                <li>P1: Coordinate Geometry (Intro)</li>
+                            </ul>
+                            <div class="checklist">
+                                <h4>This Week's Tasks</h4>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="w1-1">
+                                    <label for="w1-1">Wed: Quadratics basics + 10 problems</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="w1-2">
+                                    <label for="w1-2">Thu: Complete Quadratics exercises</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="w1-3">
+                                    <label for="w1-3">Fri: Functions basics + 10 problems</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="w1-4">
+                                    <label for="w1-4">Sat: Review Quadratics + Functions</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="w1-5">
+                                    <label for="w1-5">Sun: Coordinate Geometry intro</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="w1-6">
+                                    <label for="w1-6">Mon: Coordinate Geometry practice</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="w1-7">
+                                    <label for="w1-7">Tue: Week review + self-quiz</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Week 2</span>
+                                <span class="week-dates">Feb 5 - Feb 11</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-math">Math</span>
+                                <span class="subject-tag subject-physics">Physics</span>
+                                <div style="margin-top: 1rem; color: var(--warning);">
+                                    Target: 7 hours/day
+                                </div>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Math (4h): Continue P1 topics</li>
+                                <li>Physics (3h): Physical Quantities + Units</li>
+                                <li>Gradually add afternoon study blocks</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Week 3</span>
+                                <span class="week-dates">Feb 12 - Feb 18</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-math">Math</span>
+                                <span class="subject-tag subject-physics">Physics</span>
+                                <span class="subject-tag subject-chemistry">Chemistry</span>
+                                <div style="margin-top: 1rem; color: var(--success);">
+                                    Target: 9 hours/day 🎯
+                                </div>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Math (3.5h): P1 topics continuation</li>
+                                <li>Physics (3h): Kinematics basics</li>
+                                <li>Chemistry (2.5h): Atomic Structure</li>
+                                <li>Full stamina achieved!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2 Content -->
+            <div id="phase2" class="tab-content">
+                <div class="phase-section">
+                    <div class="phase-header">
+                        <div class="phase-number">02</div>
+                        <div class="phase-info">
+                            <h2>Content Coverage</h2>
+                            <p>Weeks 4-16 | Feb 19 - June 3 | 9h/day</p>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--bg-card); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border: 2px solid var(--accent-beige);">
+                        <h3 style="color: var(--accent-beige); margin-bottom: 1rem;">Daily Subject Split</h3>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <span class="stat-number" style="font-size: 2rem;">4h</span>
+                                <span class="stat-label">Mathematics</span>
+                                <div style="margin-top: 0.5rem; font-size: 0.8rem;">P1: 1.5h | P2: 1h | P3: 1h | M1: 0.5h</div>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number" style="font-size: 2rem;">2.5h</span>
+                                <span class="stat-label">Physics</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number" style="font-size: 2rem;">2.5h</span>
+                                <span class="stat-label">Chemistry</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: var(--accent-beige); margin: 2rem 0 1rem;">Mathematics Timeline</h3>
+                    <div class="week-grid">
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 4-9</span>
+                                <span class="week-dates">Pure Math 1</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-math">6 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Week 4: Quadratics + Functions</li>
+                                <li>Week 5: Coordinate Geometry + Circular Measure</li>
+                                <li>Week 6: Trigonometry (P1)</li>
+                                <li>Week 7: Series</li>
+                                <li>Week 8: Differentiation (basics)</li>
+                                <li>Week 9: Integration (basics)</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 10-13</span>
+                                <span class="week-dates">Pure Math 2</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-math">4 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Week 10: Algebra + Log/Exp Functions</li>
+                                <li>Week 11: Trigonometry (advanced)</li>
+                                <li>Week 12: Differentiation (techniques)</li>
+                                <li>Week 13: Integration + Numerical Solutions</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 14-16</span>
+                                <span class="week-dates">Pure Math 3</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-math">3 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Week 14: Vectors + Complex Numbers</li>
+                                <li>Week 15: Differential Equations</li>
+                                <li>Week 16: P3 Advanced consolidation</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 4-16</span>
+                                <span class="week-dates">Mechanics (Parallel)</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-math">0.5h daily</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Weeks 4-6: Forces & Equilibrium</li>
+                                <li>Weeks 7-9: Kinematics</li>
+                                <li>Weeks 10-12: Newton's Laws + Momentum</li>
+                                <li>Weeks 13-16: Energy, Work, Power</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 style="color: var(--accent-gold); margin: 3rem 0 1rem;">Physics Timeline</h3>
+                    <div class="week-grid">
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 4-7</span>
+                                <span class="week-dates">Fundamentals</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-physics">4 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Week 4: Physical Quantities + Kinematics</li>
+                                <li>Week 5: Dynamics + Forces/Density/Pressure</li>
+                                <li>Week 6: Work/Energy/Power + Deformation</li>
+                                <li>Week 7: Waves</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 8-11</span>
+                                <span class="week-dates">Advanced Topics</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-physics">4 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Week 8: Superposition</li>
+                                <li>Week 9: Electricity basics</li>
+                                <li>Week 10: D.C. Circuits</li>
+                                <li>Week 11: Particle Physics</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 12-16</span>
+                                <span class="week-dates">Consolidation</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-physics">5 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Practice & review all topics</li>
+                                <li>Solve chapter-end problems</li>
+                                <li>Identify weak areas</li>
+                                <li>Start topic-wise past papers</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 style="color: var(--accent-sand); margin: 3rem 0 1rem;">Chemistry Timeline</h3>
+                    <div class="week-grid">
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 4-8</span>
+                                <span class="week-dates">Physical Chemistry</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-chemistry">5 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Week 4: Atomic Structure + Stoichiometry</li>
+                                <li>Week 5: Bonding + States of Matter</li>
+                                <li>Week 6: Energetics + Electrochemistry</li>
+                                <li>Week 7: Equilibria</li>
+                                <li>Week 8: Reaction Kinetics</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 9-11</span>
+                                <span class="week-dates">Inorganic Chemistry</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-chemistry">3 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Week 9: Periodic Table + Group 2</li>
+                                <li>Week 10: Group 17</li>
+                                <li>Week 11: Nitrogen & Sulfur</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 12-15</span>
+                                <span class="week-dates">Organic Chemistry</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-chemistry">4 Weeks</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Week 12: Intro + Hydrocarbons + Halogens</li>
+                                <li>Week 13: Hydroxy + Carbonyl Compounds</li>
+                                <li>Week 14: Carboxylic Acids + Nitrogen</li>
+                                <li>Week 15: Polymerisation + Synthesis</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Week 16</span>
+                                <span class="week-dates">Analysis</span>
+                            </div>
+                            <div style="margin: 1rem 0;">
+                                <span class="subject-tag subject-chemistry">1 Week</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Analytical Techniques</li>
+                                <li>Spectroscopy methods</li>
+                                <li>Practical applications</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 3 Content -->
+            <div id="phase3" class="tab-content">
+                <div class="phase-section">
+                    <div class="phase-header">
+                        <div class="phase-number">03</div>
+                        <div class="phase-info">
+                            <h2>Past Papers</h2>
+                            <p>Weeks 17-22 | June 4-30 | Exam readiness</p>
+                        </div>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(201, 151, 91, 0.1)); padding: 2rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--accent-beige);">
+                        <h3 style="color: var(--accent-beige); margin-bottom: 1.5rem; font-size: 1.5rem;">Final Sprint</h3>
+                        <div class="stats-grid">
+                            <div class="stat-box" style="background: rgba(212, 165, 116, 0.1);">
+                                <span class="stat-number" style="font-size: 2rem; color: var(--accent-beige);">3h</span>
+                                <span class="stat-label">Weak Topics Review</span>
+                            </div>
+                            <div class="stat-box" style="background: rgba(201, 151, 91, 0.1);">
+                                <span class="stat-number" style="font-size: 2rem; color: var(--accent-gold);">6h</span>
+                                <span class="stat-label">Past Papers Daily</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                            <h4 style="color: var(--accent-gold); margin-bottom: 1rem;">Paper Targets</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin: 0.8rem 0; padding: 0.8rem; background: rgba(212, 165, 116, 0.1); border-radius: 6px;">
+                                    <strong style="color: var(--accent-beige);">Math:</strong> 15+ papers (P1×5, P2×5, P3×5, M1×5)
+                                </li>
+                                <li style="margin: 0.8rem 0; padding: 0.8rem; background: rgba(201, 151, 91, 0.1); border-radius: 6px;">
+                                    <strong style="color: var(--accent-gold);">Physics:</strong> 10+ papers
+                                </li>
+                                <li style="margin: 0.8rem 0; padding: 0.8rem; background: rgba(232, 213, 183, 0.1); border-radius: 6px;">
+                                    <strong style="color: var(--accent-sand);">Chemistry:</strong> 10+ papers
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 style="color: var(--accent-gold); margin: 2rem 0 1rem;">Daily Routine</h3>
+                    <div class="checklist" style="border-color: var(--accent-gold);">
+                        <h4 style="color: var(--accent-gold);">Daily Process</h4>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pp-1">
+                            <label for="pp-1"><strong>Morning (3h):</strong> Review weak topics from yesterday's papers</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pp-2">
+                            <label for="pp-2"><strong>Afternoon (2h):</strong> Solve 1 full timed paper</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pp-3">
+                            <label for="pp-3"><strong>Evening (2h):</strong> Mark paper + analyze mistakes</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pp-4">
+                            <label for="pp-4"><strong>Night (2h):</strong> Redo all wrong questions + make notes</label>
+                        </div>
+                    </div>
+
+                    <div class="week-grid">
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Week 17</span>
+                                <span class="week-dates">June 4-10</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Focus: P1 & M1 papers</li>
+                                <li>Target: 3 P1 papers, 2 M1 papers</li>
+                                <li>Review: Weak differentiation/integration</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Week 18</span>
+                                <span class="week-dates">June 11-17</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Focus: P2 & Physics papers</li>
+                                <li>Target: 3 P2, 2 Physics papers</li>
+                                <li>Review: Log/exp, electricity topics</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Week 19</span>
+                                <span class="week-dates">June 18-24</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Focus: P3 & Chemistry papers</li>
+                                <li>Target: 3 P3, 2 Chemistry papers</li>
+                                <li>Review: Complex numbers, organic chem</li>
+                            </ul>
+                        </div>
+
+                        <div class="week-card">
+                            <div class="week-header">
+                                <span class="week-title">Weeks 20-22</span>
+                                <span class="week-dates">June 25-30</span>
+                            </div>
+                            <ul class="topic-list">
+                                <li>Mixed practice all subjects</li>
+                                <li>Focus on consistently weak areas</li>
+                                <li>Simulate exam conditions</li>
+                                <li>Final confidence building</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--bg-card); border: 1px solid var(--accent-gold); border-radius: 8px; padding: 2rem; margin-top: 2rem;">
+                        <h3 style="color: var(--accent-gold); margin-bottom: 1rem;">Track Progress</h3>
+                        <ul class="topic-list">
+                            <li>Score log for every paper (aim 70%+ consistently)</li>
+                            <li>Mark recurring mistakes in notebook</li>
+                            <li>Create topic weakness lists</li>
+                            <li>Track time (finish papers with 10min to spare)</li>
+                            <li>By Week 22: Score 75%+ on most papers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rules Tab Content -->
+            <div id="rules" class="tab-content">
+                <div class="rules-section">
+                    <h3>Study Rules</h3>
+                    
+                    <div class="rule-item">
+                        <strong>Rule 1: No new topics if current isn't 70% understood</strong>
+                        <p style="margin-top: 0.5rem; color: var(--text-secondary);">
+                            Better to go slower and build solid foundations than rush through and remember nothing. If you can't solve 7/10 practice problems confidently, don't move forward.
+                        </p>
+                    </div>
+
+                    <div class="rule-item">
+                        <strong>Rule 2: Every Sunday = Test yourself</strong>
+                        <p style="margin-top: 0.5rem; color: var(--text-secondary);">
+                            Solve past paper questions on that week's topics. This is non-negotiable. It's your reality check.
+                        </p>
+                    </div>
+
+                    <div class="rule-item">
+                        <strong>Rule 3: Lazy days happen - don't double up</strong>
+                        <p style="margin-top: 0.5rem; color: var(--text-secondary);">
+                            You budgeted 6 lazy days/month. When you miss a day, just continue the schedule next day. Trying to do 18 hours to "catch up" will burn you out.
+                        </p>
+                    </div>
+
+                    <div class="rule-item">
+                        <strong>Rule 4: Coaching conflicts = Practice time</strong>
+                        <p style="margin-top: 0.5rem; color: var(--text-secondary);">
+                            If coaching covers a topic you're studying, use that session for solving problems instead of learning. Don't waste time re-learning what you know.
+                        </p>
+                    </div>
+
+                    <div class="rule-item">
+                        <strong>Rule 5: June 1 = Hard deadline for learning</strong>
+                        <p style="margin-top: 0.5rem; color: var(--text-secondary);">
+                            All content must be learned by June 1st. June is ONLY for past papers. If you're still learning in June, you won't have enough practice time.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-card); border: 1px solid var(--accent-beige); border-radius: 8px; padding: 2rem; margin-top: 2rem;">
+                    <h3 style="color: var(--accent-beige); margin-bottom: 1.5rem;">Study Session Structure</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">For every topic:</p>
+                    
+                    <div style="display: grid; gap: 1rem;">
+                        <div style="background: rgba(212, 165, 116, 0.1); padding: 1.2rem; border-radius: 6px; border-left: 3px solid var(--accent-beige);">
+                            <h4 style="color: var(--accent-beige); margin-bottom: 0.5rem; font-size: 0.95rem;">1. Learn (40%)</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                                Read notes, watch videos, make summary notes
+                            </p>
+                        </div>
+                        
+                        <div style="background: rgba(201, 151, 91, 0.1); padding: 1.2rem; border-radius: 6px; border-left: 3px solid var(--accent-gold);">
+                            <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem; font-size: 0.95rem;">2. Practice (40%)</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                                Solve 10-15 problems from textbook
+                            </p>
+                        </div>
+                        
+                        <div style="background: rgba(232, 213, 183, 0.1); padding: 1.2rem; border-radius: 6px; border-left: 3px solid var(--accent-sand);">
+                            <h4 style="color: var(--accent-sand); margin-bottom: 0.5rem; font-size: 0.95rem;">3. Active Recall (20%)</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+                                Close books, write what you remember, self-quiz
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-card); border: 1px solid var(--accent-gold); border-radius: 8px; padding: 2rem; margin-top: 2rem;">
+                    <h3 style="color: var(--accent-gold); margin-bottom: 1.5rem;">Key Tips</h3>
+                    <ul class="topic-list">
+                        <li>Keep room cold during midnight study, take 10min breaks every 2 hours</li>
+                        <li>Never compromise 8 hours sleep - brain consolidates learning then</li>
+                        <li>Chemistry is weakest - give extra time on difficult topics</li>
+                        <li>Keep mistake notebook - write every wrong answer with solution</li>
+                        <li>Saturdays = review only, no new content</li>
+                        <li>Use coaching for clarifying self-study struggles</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Jan 29 - June 30, 2026</p>
+    </footer>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Calculate days until June 30, 2026
+        function updateCountdown() {
+            const today = new Date();
+            const targetDate = new Date('2026-06-30');
+            const diffTime = targetDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            const daysLeftElement = document.getElementById('daysLeft');
+            if (daysLeftElement) {
+                daysLeftElement.textContent = diffDays;
+            }
+        }
+
+        // Update countdown on load
+        updateCountdown();
+
+        // Save checkbox states to localStorage
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            const savedState = localStorage.getItem(checkbox.id);
+            if (savedState === 'true') {
+                checkbox.checked = true;
+            }
+            
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(this.id, this.checked);
+            });
+        });
+    </script>
+</body>
+</html>
